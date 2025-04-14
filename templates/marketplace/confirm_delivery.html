@@ -1,0 +1,19 @@
+{% extends 'marketplace/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h4>Подтверждение получения заказа #{{ order.id }}</h4>
+        </div>
+        <div class="card-body">
+            <p>Вы уверены, что получили этот заказ?</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success">Подтвердить</button>
+                <a href="{% url 'order_detail' order.id %}" class="btn btn-secondary">Отмена</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

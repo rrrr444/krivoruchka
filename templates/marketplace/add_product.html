@@ -1,0 +1,25 @@
+{% extends 'marketplace/base.html' %}
+{% load custom_filters %}
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4>{% if form.instance.pk %}Редактировать{% else %}Добавить{% endif %} товар</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary">
+                            {% if form.instance.pk %}Сохранить{% else %}Добавить{% endif %}
+                        </button>
+                        <a href="{% url 'profile' %}" class="btn btn-secondary">Отмена</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

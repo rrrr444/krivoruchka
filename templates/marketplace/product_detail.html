@@ -1,0 +1,65 @@
+{% extends 'marketplace/base.html' %}
+{% load custom_filters %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{{ product.image.url }}" class="img-fluid rounded">
+        </div>
+        <div class="col-md-6">
+            <h2>{{ product.name }}</h2>
+            <p class="text-muted">Продавец: {{ product.seller.username }}</p>
+            <p>{{ product.description }}</p>
+            <h4 class="text-success">{{ product.price }} ₽</h4>
+
+            {% if user.is_authenticated %}
+            <div class="mt-4">
+                <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary">В корзину</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <h3>Отзывы ({{ product.review_set.count }})</h3>
+
+        {% for review in product.review_set.all %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <h5>{{ review.user.username }}</h5>
+                    <div class="text-warning">
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= review.rating %}★{% else %}☆{% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <p class="text-muted">{{ review.created_at|date:"d.m.Y" }}</p>
+                <p>{{ review.text }}</p>
+            </div>
+        </div>
+        {% endfor %}
+
+        {% if user.is_authenticated and user != product.seller %}
+        <div class="card">
+            <div class="card-body">
+                <h5>Оставить отзыв</h5>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Оценка</label>
+                        {{ review_form.rating }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Комментарий</label>
+                        {{ review_form.text }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Отправить</button>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

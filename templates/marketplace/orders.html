@@ -1,0 +1,31 @@
+{% extends 'marketplace/base.html' %}
+{% load custom_filters %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Мои заказы</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Товары</th>
+                <th>Сумма</th>
+                <th>Статус</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.created_at|date:"d.m.Y" }}</td>
+                <td>
+                    {% for item in order.orderitem_set.all %}
+                        {{ item.product.name }} ({{ item.quantity }})<br>
+                    {% endfor %}
+                </td>
+                <td>{{ order.total_price }} ₽</td>
+                <td>В обработке</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'marketplace/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <!-- Блок информации о профиле -->
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    {% if user.avatar %}
+                        <img src="{{ user.avatar.url }}" class="img-fluid rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                    {% else %}
+                        <img src="{% static 'images/default_avatar.png' %}" class="img-fluid rounded-circle mb-3" style="width: 150px; height: 150px;">
+                    {% endif %}
+                    <h3>{{ user.username }}</h3>
+                    <a href="{% url 'edit_profile' %}" class="btn btn-primary mt-2">Редактировать профиль</a>
+                    <a href="{% url 'add_product' %}" class="btn btn-success mt-2">Добавить товар</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Блок товаров и заказов -->
+        <div class="col-md-8">
+            <!-- Вкладки -->
+            <ul class="nav nav-tabs" id="profileTabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="products-tab" data-bs-toggle="tab" href="#products">Мои товары</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="orders-tab" data-bs-toggle="tab" href="#orders">Мои заказы</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="sales-tab" data-bs-toggle="tab" href="#sales">Продажи</a>
+                </li>
+            </ul>
+
+            <!-- Содержимое вкладок -->
+            <div class="tab-content p-3 border border-top-0 rounded-bottom">
+                <!-- Вкладка товаров -->
+                <div class="tab-pane fade show active" id="products">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4>Мои товары</h4>
+                    </div>
+                    
+                    {% if user_products %}
+                    <div class="row">
+                        {% for product in user_products %}
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <img src="{{ product.image.url }}" class="card-img-top" style="height: 200px; object-fit: contain;">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ product.name }}</h5>
+                                    <p class="card-text">{{ product.price }} ₽</p>
+                                    <p class="card-text"><small>Рейтинг: {{ product.rating|default:"ещё нет" }}/5</small></p>
+                                </div>
+                                <div class="card-footer bg-white">
+                                    <a href="{% url 'edit_product' product.id %}" class="btn btn-sm btn-outline-primary">Редактировать</a>
+                                    <a href="{% url 'delete_product' product.id %}" class="btn btn-sm btn-outline-danger">Удалить</a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">У вас пока нет товаров</div>
+                    {% endif %}
+                </div>
+
+                <!-- Остальные вкладки (заказы и продажи) -->
+                ...
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

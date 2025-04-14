@@ -1,0 +1,29 @@
+{% extends 'marketplace/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Мои продажи</h2>
+    
+    <div class="list-group">
+        {% for sale in sales %}
+        <a href="{% url 'order_detail' sale.id %}" class="list-group-item list-group-item-action">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <h5>Заказ #{{ sale.id }}</h5>
+                    <p class="mb-1">{{ sale.product.name }}</p>
+                    <small>Статус: {{ sale.get_status_display }}</small>
+                </div>
+                <div class="text-end">
+                    <p class="mb-1">{{ sale.product.price }} ₽</p>
+                    <small>{{ sale.created_at|date:"d.m.Y H:i" }}</small>
+                </div>
+            </div>
+        </a>
+        {% empty %}
+        <div class="alert alert-info">
+            У вас пока нет продаж
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

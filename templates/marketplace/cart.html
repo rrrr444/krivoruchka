@@ -1,0 +1,46 @@
+{% extends 'marketplace/base.html' %}
+{% load custom_filters %}
+{% load custom_filters %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Ваша корзина</h2>
+    {% if cart_items %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Товар</th>
+                <th>Цена</th>
+                <th>Количество</th>
+                <th>Итого</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.product.price }} ₽</td>
+                <td>
+                    <div class="btn-group">
+                        <a href="{% url 'update_cart' item.id 'decrease' %}" class="btn btn-sm btn-outline-secondary">-</a>
+                        <span class="px-2">{{ item.quantity }}</span>
+                        <a href="{% url 'update_cart' item.id 'increase' %}" class="btn btn-sm btn-outline-secondary">+</a>
+                    </div>
+                </td>
+                <td>{{ item.product.price|mul:item.quantity }} ₽</td>
+                <td>
+                    <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-danger btn-sm">Удалить</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="text-end">
+        <h4>Общая сумма: {{ total }} ₽</h4>
+        <a href="{% url 'checkout' %}" class="btn btn-primary">Оформить заказ</a>
+    </div>
+    {% else %}
+    <div class="alert alert-info">Ваша корзина пуста</div>
+    {% endif %}
+</div>
+{% endblock %}

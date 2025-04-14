@@ -1,0 +1,23 @@
+{% extends 'marketplace/base.html' %}
+{% load custom_filters %}
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Удаление товара</h4>
+                </div>
+                <div class="card-body">
+                    <p>Вы уверены, что хотите удалить товар "{{ product.name }}"?</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Да, удалить</button>
+                        <a href="{% url 'profile' %}" class="btn btn-secondary">Отмена</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

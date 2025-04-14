@@ -1,0 +1,14 @@
+{% extends 'marketplace/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Мои заказы</h2>
+    <div class="list-group">
+        {% for order in orders %}
+        <a href="{% url 'order_detail' order.id %}" class="list-group-item list-group-item-action">
+            Заказ #{{ order.id }} - {{ order.product.name }} ({{ order.get_status_display }})
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'marketplace/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-white">
+            <h4 class="mb-0">Редактирование профиля</h4>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Имя пользователя</label>
+                        {{ form.username }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Email</label>
+                        {{ form.email }}
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Имя</label>
+                        {{ form.first_name }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Фамилия</label>
+                        {{ form.last_name }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Отчество</label>
+                        {{ form.middle_name }}
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Телефон</label>
+                        {{ form.phone }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Аватар</label>
+                        {{ form.avatar }}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">О себе</label>
+                    {{ form.bio }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Адрес</label>
+                    {{ form.address }}
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary">
+                        Сохранить изменения
+                    </button>
+                    <a href="{% url 'profile' %}" class="btn btn-outline-secondary">
+                        Отмена
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
